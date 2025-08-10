@@ -1,36 +1,32 @@
 import mongoose from "mongoose";
 
-const notificationSchema = new mongoose.Schema(
+const commentSchema = new mongoose.Schema(
   {
-    from: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-    to: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-      enum: ["follow", "like", "comment"],
     },
     post: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
-      default: null,
+      required: true,
     },
-    comment: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
-      default: null,
+    content: {
+      type: String,
+      required: true,
+      maxLength: 280,
     },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const Notification = mongoose.model("Notification", notificationSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 
-export default Notification;
+export default Comment;
